@@ -15,4 +15,11 @@ public class Question {
     public int getScore() {
         return score;
     }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "score=" + score +
+                '}';
+    }
 }
