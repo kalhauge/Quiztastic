@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.ParseException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,23 +35,44 @@ class QuestionReaderTest {
     }
 
     @Test
-    void shouldReadSingleQuestion() throws IOException {
+    void shouldReadSingleQuestion() throws IOException, ParseException {
         String questionText = "100\tLAKES & RIVERS\tRiver mentioned most often in the Bible\tthe Jordan\n";
         QuestionReader reader = new QuestionReader(new StringReader(questionText));
         Question q = reader.readQuestion();
         assertNotNull(q);
         // Insert more tests
-        assertEquals(q.getScore(), 100);
+        assertEquals(100, q.getScore());
 
         Question end = reader.readQuestion();
         assertNull(end);
     }
 
     @Test
-    void shouldReadManyQuestions() throws IOException {
+    void shouldThrowParseExceptionOnTooFewFields() throws IOException {
+        String questionText = "100\tLAKES & RIVERS\tthe Jordan\n";
+        QuestionReader reader = new QuestionReader(new StringReader(questionText));
+        ParseException e = assertThrows(ParseException.class, () -> {
+                    reader.readQuestion();
+                });
+        assertEquals("Expected 4 fields, but got 3", e.getMessage());
+    }
+
+    @Test
+    void shouldThrowParseExceptionOnBadInteger() throws  IOException {
+        String questionText = "xxx\tLAKES & RIVERS\tthe Jordan\tquestion\n";
+        QuestionReader reader = new QuestionReader(new StringReader(questionText));
+        ParseException e = assertThrows(ParseException.class, () -> {
+            reader.readQuestion();
+        });
+        assertEquals("Expected an integer in field 1, but got \"xxx\"", e.getMessage());
+
+    }
+
+    @Test
+    void shouldReadManyQuestions() throws IOException, ParseException {
         InputStream s = this.getClass()
                 .getClassLoader()
-                .getResourceAsStream("question-small.tsv");
+                .getResourceAsStream("questions-small.tsv");
 
         if (s == null) fail();
         QuestionReader reader = new QuestionReader(new InputStreamReader(s));
