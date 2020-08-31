@@ -1,6 +1,7 @@
 package quiztastic.app;
 
 import org.junit.jupiter.api.Test;
+import quiztastic.core.Category;
 import quiztastic.core.Question;
 
 import java.io.*;
@@ -42,13 +43,16 @@ class QuestionReaderTest {
         assertNotNull(q);
         // Insert more tests
         assertEquals(100, q.getScore());
+        assertEquals(new Category("LAKES & RIVERS"), q.getCategory());
+        assertEquals("River mentioned most often in the Bible", q.getQuestion());
+        assertEquals("the Jordan", q.getAnswer());
 
         Question end = reader.readQuestion();
         assertNull(end);
     }
 
     @Test
-    void shouldThrowParseExceptionOnTooFewFields() throws IOException {
+    void shouldThrowParseExceptionOnTooFewFields() {
         String questionText = "100\tLAKES & RIVERS\tthe Jordan\n";
         QuestionReader reader = new QuestionReader(new StringReader(questionText));
         ParseException e = assertThrows(ParseException.class, () -> {
