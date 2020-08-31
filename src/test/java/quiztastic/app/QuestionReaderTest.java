@@ -55,9 +55,7 @@ class QuestionReaderTest {
     void shouldThrowParseExceptionOnTooFewFields() {
         String questionText = "100\tLAKES & RIVERS\tthe Jordan\n";
         QuestionReader reader = new QuestionReader(new StringReader(questionText));
-        ParseException e = assertThrows(ParseException.class, () -> {
-                    reader.readQuestion();
-                });
+        ParseException e = assertThrows(ParseException.class, () -> reader.readQuestion());
         assertEquals("Expected 4 fields, but got 3", e.getMessage());
     }
 
