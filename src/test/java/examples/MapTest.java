@@ -63,7 +63,7 @@ public class MapTest {
             current.add(firstName);
         }
 
-        assertEquals(List.of("Rap", "Rip", "Rup", "Anders"),
+        assertEquals(List.of("Rip", "Rap", "Rup", "Anders"),
                 families.get("And"));
         assertEquals(List.of("Peter"), families.get("Pan"));
     }
