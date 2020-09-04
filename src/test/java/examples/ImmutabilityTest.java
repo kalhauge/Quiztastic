@@ -17,6 +17,5 @@ public class ImmutabilityTest {
         assertThrows(UnsupportedOperationException.class, () ->
                 a.set(0, "Other")
         );
-
     }
 }
