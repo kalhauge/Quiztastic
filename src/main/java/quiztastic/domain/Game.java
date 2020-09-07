@@ -4,7 +4,9 @@ import quiztastic.core.Board;
 import quiztastic.core.Category;
 import quiztastic.core.Question;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Game {
     private final Board board;
@@ -16,7 +18,12 @@ public class Game {
     }
 
     public List<Category> getCategories() {
-        return null;
+        List<Category> list = new ArrayList<>();
+        for (Board.Group group : this.board.getGroups()) {
+            Category category = group.getCategory();
+            list.add(category);
+        }
+        return list;
     }
 
     public String answerQuestion(int categoryNumber, int questionNumber, String answer) {
