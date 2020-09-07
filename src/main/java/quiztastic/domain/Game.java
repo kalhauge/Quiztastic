@@ -20,13 +20,21 @@ public class Game {
     }
 
     public String answerQuestion(int categoryNumber, int questionNumber, String answer) {
-        Question q = this.board.getGroups().get(categoryNumber).getQuestions().get(questionNumber);
+        Question q = getQuestion(categoryNumber, questionNumber);
         answerList.add(new Answer(categoryNumber, questionNumber, answer));
         if (q.getAnswer().equals(answer)) {
             return null;
         } else {
             return q.getAnswer();
         }
+    }
+
+    public String getQuestionText(int categoryNumber, int questionNumber) {
+        return getQuestion(categoryNumber, questionNumber).getQuestion();
+    }
+
+    private Question getQuestion(int categoryNumber, int questionNumber) {
+        return this.board.getGroups().get(categoryNumber).getQuestions().get(questionNumber);
     }
 
     public boolean isAnswered(int categoryNumber, int questionNumber) {
